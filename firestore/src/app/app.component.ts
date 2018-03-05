@@ -14,30 +14,18 @@ interface Post {
 
 interface PostId extends Post { 
   id: string; 
-  posts: any;
+  
 }
-
- getPost(postId) {
-    this.postDoc = this.afs.doc('posts/'+postId);
-    this.post = this.postDoc.valueChanges();
-  }
-
- deletePost(postId) {
-    this.afs.doc('posts/'+postId).delete();
-  }
-
-postDoc: AngularFirestoreDocument<Post>;
-  post: Observable<Post>;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
+
 })
 export class AppComponent {
-  title = 'Contact List';
   postsCol: AngularFirestoreCollection<Post>;
-  posts: Observable<Post[]>;
+  posts: any;
 
   firstname: string;
   lastname: string;
@@ -45,6 +33,10 @@ export class AppComponent {
   mobile: string;
   email: string;
   address: string;
+
+
+  postDoc: AngularFirestoreDocument<Post>;
+  post: Observable<Post>;
 
   constructor(private afs: AngularFirestore) {}
   
@@ -63,5 +55,14 @@ export class AppComponent {
     addPost() {
     this.afs.collection('contactlist').doc('my-custom-id').set({'firstname': this.firstname, 'lastname': this.lastname, 'phone': this.phone, 'mobile': this.mobile,
     'email': this.email, 'address': this.address});
+  }
+
+   getPost(postId) {
+    this.postDoc = this.afs.doc('posts/'+postId);
+    this.post = this.postDoc.valueChanges();
+  }
+
+   deletePost(postId){
+    this.afs.doc('posts/'+postId).delete();
   }
 }
